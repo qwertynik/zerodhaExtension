@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Kite Zerodha Link Injector",
-  "version": "1.0",
-  "description": "Adds a custom link to kite.zerodha.com pages.",
+  "name": "Kite Zerodha Power Tools",
+  "version": "1.1",
+  "description": "Enhances kite.zerodha.com: adds nav links, auto-syncs alert modals, and enables one-click deletion of disabled alerts.",
   "permissions": ["scripting"],
   "host_permissions": ["https://kite.zerodha.com/*"],
   "content_scripts": [
