@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Kite Zerodha Link Injector",
+  "version": "1.0",
+  "description": "Adds a custom link to kite.zerodha.com pages.",
+  "permissions": ["scripting"],
+  "host_permissions": ["https://kite.zerodha.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://kite.zerodha.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
