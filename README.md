@@ -2,7 +2,7 @@
 
 A set of utilities to make trading on the Zerodha's web platform Kite easier.
 
-## How to Load This Extension Locally
+# How to Load This Extension Locally
 
 1. Open Google Chrome and go to `chrome://extensions/`
 2. Enable **Developer mode** (toggle in the top right corner)
