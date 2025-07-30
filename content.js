@@ -26,6 +26,60 @@
     console.log('[KiteExt] Alerts link inserted');
   }
 
+  // --- Add 'Delete disabled alerts' link next to New alert button ---
+  function addDeleteDisabledAlertsLink() {
+    if (window.location.pathname !== '/orders/alerts') return;
+    const toolbar = document.querySelector('.alerts .toolbar');
+    if (!toolbar) return;
+    // Prevent duplicate insertion
+    if (toolbar.querySelector('.delete-disabled-alerts-link')) return;
+    const newAlertBtn = toolbar.querySelector('button.create-new');
+    if (!newAlertBtn) return;
+    // Create the link/button
+    const deleteLink = document.createElement('button');
+    deleteLink.className = 'delete-disabled-alerts-link button button-small button-outline';
+    deleteLink.textContent = 'Delete disabled alerts';
+    deleteLink.style.marginLeft = '8px';
+    // Real click handler
+    deleteLink.onclick = function(e) {
+      e.preventDefault();
+      try {
+        // Step 1: Find all disabled alert rows and check their checkboxes
+        const rows = document.querySelectorAll('.alerts-table tbody tr');
+        let disabledCount = 0;
+        rows.forEach(row => {
+          const statusCell = row.querySelector('.col-status');
+          if (statusCell && /disabled/i.test(statusCell.textContent)) {
+            const checkbox = row.querySelector('input[type="checkbox"].su-checkbox');
+            if (checkbox && !checkbox.checked) {
+              checkbox.click(); // triggers framework events
+              disabledCount++;
+            }
+          }
+        });
+        if (disabledCount === 0) {
+          alert('No disabled alerts found to delete.');
+          return;
+        }
+        // Step 2: Find and click the delete-selected link
+        setTimeout(() => {
+          const deleteSelected = document.querySelector('a.delete-selected');
+          if (deleteSelected) {
+            deleteSelected.click();
+            console.log('[KiteExt] Clicked delete-selected link after selecting', disabledCount, 'disabled alerts.');
+          } else {
+            alert('Delete selected link not found after selecting disabled alerts.');
+          }
+        }, 250); // wait for UI to update
+      } catch (err) {
+        alert('Error while deleting disabled alerts: ' + err);
+      }
+    };
+    // Insert after the New alert button
+    newAlertBtn.parentNode.insertBefore(deleteLink, newAlertBtn.nextSibling);
+    console.log('[KiteExt] Delete disabled alerts link inserted');
+  }
+
   // --- Sync Inputs inside the open modal on /orders/alerts ---
   let lastOmniInput = null, lastNameInput = null, lastMutationObserver = null, lastDropdownListener = null, modalObserver = null, dropdownPoller = null;
   function tryAttachInputSync() {
@@ -112,11 +166,13 @@
   // Observe DOM for nav and alerts page
   const observer = new MutationObserver(() => {
     addAlertsLink();
+    addDeleteDisabledAlertsLink();
     tryAttachInputSync();
   });
   observer.observe(document.body, { childList: true, subtree: true });
   // Initial run
   addAlertsLink();
+  addDeleteDisabledAlertsLink();
   tryAttachInputSync();
   // Also poll every 500ms in case popup is rendered outside of mutation observer scope
   setInterval(tryAttachInputSync, 500);
