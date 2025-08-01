@@ -3,7 +3,12 @@
   "name": "Kite Zerodha Power Tools",
   "version": "1.1",
   "description": "Enhances kite.zerodha.com: adds nav links, auto-syncs alert modals, and enables one-click deletion of disabled alerts.",
-  "permissions": ["scripting"],
+  "icons": {
+    "16": "kite-plus-logo.png",
+    "32": "kite-plus-logo.png",
+    "48": "kite-plus-logo.png",
+    "128": "kite-plus-logo.png"
+  },
   "host_permissions": ["https://kite.zerodha.com/*"],
   "content_scripts": [
     {
